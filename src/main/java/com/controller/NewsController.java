@@ -32,5 +32,5 @@ public class NewsController {
         return ResponseEntity.ok(
             newsService.searchNews(keyword)
         );
-    }
+    } 
 }
