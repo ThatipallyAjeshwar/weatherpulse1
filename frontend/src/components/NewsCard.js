@@ -36,6 +36,7 @@ function NewsCard({ article, index }) {
           Read More →
         </a>
       </div>
+
     </div>
   );
 }
