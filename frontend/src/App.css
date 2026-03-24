@@ -20,20 +20,9 @@ body {
   to { transform: rotate(360deg); }
 }
 
-/* ── MOBILE RESPONSIVE ── */
-@media (max-width: 900px) {
-  /* Stack layout vertically */
-  div[style*="gridTemplateColumns: 340px"] {
+/* Mobile */
+@media (max-width: 768px) {
+  .layout {
     grid-template-columns: 1fr !important;
-  }
-}
-
-@media (max-width: 600px) {
-  /* Smaller padding on mobile */
-  div[style*="padding: 2rem 1.5rem"] {
-    padding: 1rem !important;
-  }
-  div[style*="padding: 2rem"] {
-    padding: 1rem !important;
   }
 }

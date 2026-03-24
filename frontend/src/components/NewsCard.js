@@ -32,10 +32,7 @@ function NewsCard({ article, index }) {
           target="_blank"
           rel="noreferrer"
           style={styles.link}
-        
-      
       </div>
-
     </div>
   );
 }

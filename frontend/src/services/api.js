@@ -1,30 +1,37 @@
 import axios from 'axios';
 
 const BASE_URL = 'http://localhost:8080/api';
+const GNEWS_KEY = 'YOUR_GNEWS_KEY'; // get free key from gnews.io
 
-// Weather API
+// ── Weather ──
 export const getWeather = async (city) => {
   const response = await axios.get(`${BASE_URL}/weather?city=${city}`);
   return response.data;
 };
 
 export const getWeatherByCoords = async (lat, lon) => {
-  const response = await axios.get(`${BASE_URL}/weather/coords?lat=${lat}&lon=${lon}`);
+  const response = await axios.get(
+    `${BASE_URL}/weather/coords?lat=${lat}&lon=${lon}`
+  );
   return response.data;
 };
 
-// News API
-export const getTopHeadlines = async (country = 'in') => {
-  const response = await axios.get(`${BASE_URL}/news?country=${country}`);
-  return response.data;
+// ── News (GNews API - works on localhost) ──
+export const getTopHeadlines = async () => {
+  const response = await axios.get(
+    `https://gnews.io/api/v4/top-headlines?category=general&lang=en&country=in&max=9&apikey=${GNEWS_KEY}`
+  );
+  return { articles: response.data.articles };
 };
 
 export const searchNews = async (keyword) => {
-  const response = await axios.get(`${BASE_URL}/news/search?keyword=${keyword}`);
-  return response.data;
+  const response = await axios.get(
+    `https://gnews.io/api/v4/search?q=${keyword}&lang=en&max=9&apikey=${GNEWS_KEY}`
+  );
+  return { articles: response.data.articles };
 };
 
-// Cities API
+// ── Cities ──
 export const getAllCities = async () => {
   const response = await axios.get(`${BASE_URL}/cities`);
   return response.data;

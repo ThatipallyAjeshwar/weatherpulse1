@@ -1,70 +1,222 @@
-# Getting Started with Create React App
+# 🌦️ WeatherPulse
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> A Full Stack Weather & News Dashboard built with **React**, **Spring Boot**, and **MySQL**
 
-## Available Scripts
+![Java](https://img.shields.io/badge/Java-17-orange?style=flat-square&logo=java)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.2-green?style=flat-square&logo=springboot)
+![React](https://img.shields.io/badge/React-18-blue?style=flat-square&logo=react)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-blue?style=flat-square&logo=mysql)
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## 📌 About The Project
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+**WeatherPulse** is a full stack web application that allows users to:
+- 🔍 Search any city and get **live weather data**
+- 📰 Read **latest news headlines** by category
+- ⭐ **Save favourite cities** to a MySQL database
+- 📱 Use on any device — fully **responsive UI**
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+This project was built as part of my Full Stack Developer portfolio to demonstrate skills in **Java backend development**, **REST API integration**, **React frontend**, and **MySQL database management**.
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🚀 Features
 
-### `npm run build`
+| Feature | Description |
+|---|---|
+| 🌤️ Live Weather | Real-time weather data from OpenWeatherMap API |
+| 📰 News Feed | Top headlines and category search via NewsAPI |
+| ⭐ Save Cities | Save, favourite and delete cities from MySQL DB |
+| 🔍 City Search | Search any city in the world |
+| 📱 Responsive | Works on mobile, tablet and desktop |
+| 🎨 Hacker UI | Terminal-style dark dashboard design |
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🛠️ Tech Stack
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Frontend
+- React.js 18
+- Axios (HTTP requests)
+- CSS-in-JS (inline styles)
 
-### `npm run eject`
+### Backend
+- Java 17
+- Spring Boot 3.2
+- Spring Data JPA
+- Maven
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Database
+- MySQL 8.0
+- Hibernate ORM
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### External APIs
+- [OpenWeatherMap API](https://openweathermap.org/api) — live weather data
+- [NewsAPI](https://newsapi.org) — news headlines
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 📁 Project Structure
+```
+weatherpulse/
+├── weatherpulse/                  # Spring Boot Backend
+│   ├── src/main/java/com/ajeshwar/weatherpulse/
+│   │   ├── config/
+│   │   │   ├── AppConfig.java
+│   │   │   ├── CorsConfig.java
+│   │   │   └── GlobalExceptionHandler.java
+│   │   ├── controller/
+│   │   │   ├── CityController.java
+│   │   │   ├── WeatherController.java
+│   │   │   └── NewsController.java
+│   │   ├── model/
+│   │   │   ├── City.java
+│   │   │   ├── WeatherResponse.java
+│   │   │   └── NewsResponse.java
+│   │   ├── repository/
+│   │   │   └── CityRepository.java
+│   │   └── service/
+│   │       ├── CityService.java
+│   │       ├── WeatherService.java
+│   │       └── NewsService.java
+│   └── src/main/resources/
+│       └── application.properties
+│
+└── frontend/                      # React Frontend
+    └── src/
+        ├── components/
+        │   ├── Navbar.js
+        │   ├── SearchBar.js
+        │   ├── WeatherCard.js
+        │   ├── NewsCard.js
+        │   └── Loader.js
+        ├── pages/
+        │   └── Home.js
+        └── services/
+            └── api.js
+```
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## ⚙️ Setup & Installation
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Prerequisites
+Make sure you have these installed:
+- Java JDK 17+
+- Maven
+- MySQL 8.0+
+- Node.js 18+
+- npm
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/ThatipallyAjeshwar/weatherpulse-.git
+cd weatherpulse-
+```
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### 2️⃣ Setup MySQL Database
 
-### Making a Progressive Web App
+Open MySQL and run:
+```sql
+CREATE DATABASE weatherpulse_db;
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
+### 3️⃣ Configure Backend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Open `weatherpulse/src/main/resources/application.properties` and update:
+```properties
+spring.datasource.username=root
+spring.datasource.password=YOUR_MYSQL_PASSWORD
+weather.api.key=YOUR_OPENWEATHER_API_KEY
+news.api.key=YOUR_NEWSAPI_KEY
+```
 
-### Deployment
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### 4️⃣ Run the Backend
+```bash
+cd weatherpulse
+./mvnw spring-boot:run
+```
 
-### `npm run build` fails to minify
+Backend runs at: `http://localhost:8080`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+
+### 5️⃣ Run the Frontend
+
+Open a new terminal:
+```bash
+cd frontend
+npm install
+npm start
+```
+
+Frontend runs at: `http://localhost:3000`
+
+---
+
+## 🔗 API Endpoints
+
+### Weather
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/weather?city={city}` | Get weather by city name |
+| GET | `/api/weather/coords?lat={lat}&lon={lon}` | Get weather by coordinates |
+
+### News
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/news?country={country}` | Get top headlines |
+| GET | `/api/news/search?keyword={keyword}` | Search news by keyword |
+
+### Cities
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/cities` | Get all saved cities |
+| GET | `/api/cities/favourites` | Get favourite cities |
+| POST | `/api/cities` | Save a new city |
+| PUT | `/api/cities/{id}/favourite` | Toggle favourite |
+| DELETE | `/api/cities/{id}` | Delete a city |
+
+---
+
+## 📸 Screenshots
+
+> 🔜 Coming soon — will add after deployment
+
+---
+
+## 🌐 Deployment
+
+> 🔜 Coming soon — planning to deploy on:
+> - Backend: Railway / Render
+> - Frontend: Netlify / Vercel
+> - Database: PlanetScale / Railway MySQL
+
+---
+
+## 👨‍💻 Author
+
+**Thatipally Ajeshwar Reddy**
+- 🎓 Full Stack Developer | QSpiders Graduate
+- 📍 Hyderabad, India
+- 💼 [GitHub](https://github.com/ThatipallyAjeshwar)
+- 📧 Available for hire
+
+---
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+---
+
+> ⭐ If you found this project helpful, please give it a star on GitHub!

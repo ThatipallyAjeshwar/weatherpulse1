@@ -6,34 +6,48 @@ import Loader from '../components/Loader';
 import {
   getWeather,
   getTopHeadlines,
+  searchNews,
   saveCity,
   getAllCities,
   deleteCity,
-  toggleFavourite
+  toggleFavourite,
 } from '../services/api';
 
 function Home() {
-  const [weather, setWeather]       = useState(null);
-  const [news, setNews]             = useState([]);
-  const [cities, setCities]         = useState([]);
-  const [loading, setLoading]       = useState(false);
-  const [newsLoad, setNewsLoad]     = useState(true);
-  const [error, setError]           = useState('');
-  const [saveMsg, setSaveMsg]       = useState('');
-  const [activeTab, setActiveTab]   = useState('news');
+  const [weather, setWeather]     = useState(null);
+  const [news, setNews]           = useState([]);
+  const [cities, setCities]       = useState([]);
+  const [loading, setLoading]     = useState(false);
+  const [newsLoad, setNewsLoad]   = useState(true);
+  const [error, setError]         = useState('');
+  const [saveMsg, setSaveMsg]     = useState('');
+  const [activeTab, setActiveTab] = useState('headlines');
 
   useEffect(() => {
-    loadNews();
+    loadHeadlines();
     loadCities();
   }, []);
 
-  const loadNews = async () => {
+  const loadHeadlines = async () => {
     try {
       setNewsLoad(true);
-      const data = await getTopHeadlines('in');
+      const data = await getTopHeadlines();
       setNews(data.articles || []);
     } catch (err) {
       console.error('News error:', err);
+    } finally {
+      setNewsLoad(false);
+    }
+  };
+
+  const loadTabNews = async (keyword, tab) => {
+    try {
+      setActiveTab(tab);
+      setNewsLoad(true);
+      const data = await searchNews(keyword);
+      setNews(data.articles || []);
+    } catch (err) {
+      console.error('Tab news error:', err);
     } finally {
       setNewsLoad(false);
     }
@@ -91,15 +105,15 @@ function Home() {
   return (
     <div style={styles.page}>
 
-      {/* Search Bar */}
+      {/* Search */}
       <SearchBar onSearch={handleSearch} loading={loading} />
 
-      {/* Error Message */}
+      {/* Error */}
       {error && <p style={styles.error}>{error}</p>}
 
       <div style={styles.layout}>
 
-        {/* LEFT PANEL — Weather */}
+        {/* ── LEFT: Weather ── */}
         <div style={styles.left}>
           <p style={styles.sectionLabel}>// weather.exe</p>
 
@@ -108,22 +122,17 @@ function Home() {
           {!loading && weather && (
             <>
               <WeatherCard data={weather} />
-              <button
-                onClick={handleSaveCity}
-                style={styles.saveBtn}
-              >
+              <button onClick={handleSaveCity} style={styles.saveBtn}>
                 ⭐ Save City
               </button>
-              {saveMsg && (
-                <p style={styles.saveMsg}>{saveMsg}</p>
-              )}
+              {saveMsg && <p style={styles.saveMsg}>{saveMsg}</p>}
             </>
           )}
 
           {!loading && !weather && !error && (
             <div style={styles.empty}>
               <p style={styles.emptyText}>
-                &gt; Search a city to see weather_
+                &gt; Search a city to see weather data_
               </p>
             </div>
           )}
@@ -140,23 +149,20 @@ function Home() {
                     style={styles.cityName}
                     onClick={() => handleSearch(city.name)}
                   >
-                    {city.favourite ? '⭐' : '○'} {city.name}, {city.country}
+                    {city.favourite ? '⭐' : '○'} {city.name},{' '}
+                    {city.country}
                   </span>
                   <div style={styles.cityActions}>
                     <button
                       style={styles.iconBtn}
                       onClick={() => handleFavourite(city.id)}
                       title="Toggle Favourite"
-                    >
-                      ★
-                    </button>
+                    >★</button>
                     <button
-                      style={{...styles.iconBtn, color: '#ff5252'}}
+                      style={{ ...styles.iconBtn, color: '#ff5252' }}
                       onClick={() => handleDelete(city.id)}
                       title="Delete"
-                    >
-                      ✕
-                    </button>
+                    >✕</button>
                   </div>
                 </div>
               ))}
@@ -164,48 +170,61 @@ function Home() {
           )}
         </div>
 
-        {/* RIGHT PANEL — News + Tabs */}
+        {/* ── RIGHT: News ── */}
         <div style={styles.right}>
 
-          {/* Tabs */}
+          {/* News Tabs */}
           <div style={styles.tabs}>
             <button
-              style={activeTab === 'news'
-                ? {...styles.tab, ...styles.tabActive}
+              style={activeTab === 'headlines'
+                ? { ...styles.tab, ...styles.tabActive }
                 : styles.tab}
-              onClick={() => setActiveTab('news')}
+              onClick={() => {
+                setActiveTab('headlines');
+                loadHeadlines();
+              }}
             >
               Top Headlines
             </button>
             <button
-              style={activeTab === 'tech'
-                ? {...styles.tab, ...styles.tabActive}
+              style={activeTab === 'technology'
+                ? { ...styles.tab, ...styles.tabActive }
                 : styles.tab}
-              onClick={() => {
-                setActiveTab('tech');
-                loadTabNews('technology');
-              }}
+              onClick={() => loadTabNews('technology', 'technology')}
             >
               Technology
             </button>
             <button
               style={activeTab === 'sports'
-                ? {...styles.tab, ...styles.tabActive}
+                ? { ...styles.tab, ...styles.tabActive }
                 : styles.tab}
-              onClick={() => {
-                setActiveTab('sports');
-                loadTabNews('sports');
-              }}
+              onClick={() => loadTabNews('sports', 'sports')}
             >
               Sports
+            </button>
+            <button
+              style={activeTab === 'business'
+                ? { ...styles.tab, ...styles.tabActive }
+                : styles.tab}
+              onClick={() => loadTabNews('business', 'business')}
+            >
+              Business
             </button>
           </div>
 
           {newsLoad && <Loader />}
 
-          {!newsLoad && (
+          {!newsLoad && news.length === 0 && (
+            <div style={styles.empty}>
+              <p style={styles.emptyText}>
+                &gt; No news found. Check API key in api.js_
+              </p>
+            </div>
+          )}
+
+          {!newsLoad && news.length > 0 && (
             <div style={styles.newsList}>
-              {news.slice(0, 6).map((article, i) => (
+              {news.slice(0, 9).map((article, i) => (
                 <NewsCard key={i} article={article} index={i} />
               ))}
             </div>
@@ -215,19 +234,6 @@ function Home() {
       </div>
     </div>
   );
-
-  async function loadTabNews(keyword) {
-    try {
-      setNewsLoad(true);
-      const { searchNews } = await import('../services/api');
-      const data = await searchNews(keyword);
-      setNews(data.articles || []);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setNewsLoad(false);
-    }
-  }
 }
 
 const styles = {
@@ -240,7 +246,7 @@ const styles = {
     gridTemplateColumns: '340px 1fr',
     gap: '1px',
     background: 'rgba(0,230,118,0.08)',
-    minHeight: 'calc(100vh - 140px)',
+    minHeight: 'calc(100vh - 120px)',
   },
   left: {
     background: '#0d0d0d',
@@ -288,7 +294,6 @@ const styles = {
     fontSize: '0.75rem',
     cursor: 'pointer',
     letterSpacing: '0.1em',
-    transition: 'background 0.2s',
   },
   saveMsg: {
     fontFamily: 'monospace',
@@ -316,12 +321,12 @@ const styles = {
     alignItems: 'center',
     padding: '0.6rem 0.5rem',
     borderBottom: '1px solid rgba(255,255,255,0.04)',
-    cursor: 'pointer',
   },
   cityName: {
     fontFamily: 'monospace',
     fontSize: '0.75rem',
     color: '#e0e0e0',
+    cursor: 'pointer',
   },
   cityActions: {
     display: 'flex',
@@ -339,6 +344,7 @@ const styles = {
     display: 'flex',
     gap: '0.3rem',
     marginBottom: '1.5rem',
+    flexWrap: 'wrap',
     borderBottom: '1px solid rgba(255,255,255,0.05)',
     paddingBottom: '0.8rem',
   },
@@ -361,7 +367,7 @@ const styles = {
   },
   newsList: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
     gap: '1px',
     background: 'rgba(255,255,255,0.04)',
   },
