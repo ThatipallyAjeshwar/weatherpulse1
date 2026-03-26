@@ -5,14 +5,12 @@ function SearchBar({ onSearch, loading }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (city.trim()) {
-      onSearch(city.trim());
-    }
+    if (city.trim()) onSearch(city.trim());
   };
 
   return (
     <div style={styles.wrap}>
-      <p style={styles.label}>&gt; search_city.exe</p>
+      <p style={styles.label}>Search City</p>
       <form onSubmit={handleSubmit} style={styles.form}>
         <input
           type="text"
@@ -22,12 +20,8 @@ function SearchBar({ onSearch, loading }) {
           style={styles.input}
           disabled={loading}
         />
-        <button
-          type="submit"
-          style={styles.button}
-          disabled={loading}
-        >
-          {loading ? 'Searching...' : 'Search'}
+        <button type="submit" style={styles.button} disabled={loading}>
+          {loading ? 'Searching...' : '🔍 Search'}
         </button>
       </form>
     </div>
@@ -36,15 +30,18 @@ function SearchBar({ onSearch, loading }) {
 
 const styles = {
   wrap: {
-    padding: '2rem',
-    borderBottom: '1px solid rgba(0,230,118,0.1)',
+    padding: '1.5rem 2rem',
+    background: '#ffffff',
+    borderBottom: '1px solid #eef2ee',
   },
   label: {
-    fontFamily: 'monospace',
-    fontSize: '0.68rem',
+    fontFamily: 'Inter, sans-serif',
+    fontSize: '0.72rem',
     color: '#ff6d00',
-    marginBottom: '0.8rem',
-    letterSpacing: '0.1em',
+    fontWeight: '600',
+    letterSpacing: '0.08em',
+    textTransform: 'uppercase',
+    marginBottom: '0.7rem',
   },
   form: {
     display: 'flex',
@@ -54,25 +51,28 @@ const styles = {
   input: {
     flex: 1,
     minWidth: '250px',
-    padding: '0.75rem 1rem',
-    background: '#161616',
-    border: '1px solid rgba(0,230,118,0.2)',
-    color: '#e0e0e0',
-    fontFamily: 'monospace',
-    fontSize: '0.85rem',
-    outline: 'none',
+    padding: '0.75rem 1.2rem',
+    background: '#f9fafb',
+    border: '1.5px solid #e2e8e2',
+    borderRadius: '8px',
+    color: '#1a1a1a',
+    fontFamily: 'Inter, sans-serif',
+    fontSize: '0.9rem',
+    transition: 'all 0.2s',
   },
   button: {
     padding: '0.75rem 2rem',
-    background: '#00e676',
-    color: '#000',
+    background: 'linear-gradient(135deg, #00c853, #00b450)',
+    color: '#fff',
     border: 'none',
-    fontFamily: 'monospace',
-    fontSize: '0.8rem',
-    fontWeight: 'bold',
-    letterSpacing: '0.1em',
+    borderRadius: '8px',
+    fontFamily: 'Inter, sans-serif',
+    fontSize: '0.85rem',
+    fontWeight: '600',
     cursor: 'pointer',
-    textTransform: 'uppercase',
+    letterSpacing: '0.03em',
+    boxShadow: '0 4px 12px rgba(0,180,80,0.25)',
+    transition: 'all 0.2s',
   },
 };
 

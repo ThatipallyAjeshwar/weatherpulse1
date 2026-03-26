@@ -3,83 +3,97 @@ import React from 'react';
 function NewsCard({ article, index }) {
   return (
     <div style={styles.card}>
-      <div style={styles.header}>
-        <span style={styles.index}>#{String(index + 1).padStart(2, '0')}</span>
-        <span style={styles.source}>{article.source?.name || 'Unknown'}</span>
-      </div>
-
-      {article.urlToImage && (
+      {(article.image || article.urlToImage) && (
         <img
-          src={article.urlToImage}
+          src={article.image || article.urlToImage}
           alt={article.title}
           style={styles.image}
           onError={(e) => e.target.style.display = 'none'}
         />
       )}
 
-      <h3 style={styles.title}>{article.title}</h3>
+      <div style={styles.body}>
+        <div style={styles.header}>
+          <span style={styles.index}>#{String(index + 1).padStart(2, '0')}</span>
+          <span style={styles.source}>
+            {article.source?.name || 'News'}
+          </span>
+        </div>
 
-      {article.description && (
-        <p style={styles.desc}>{article.description}</p>
-      )}
+        <h3 style={styles.title}>{article.title}</h3>
 
-      <div style={styles.footer}>
-        <span style={styles.date}>
-          {new Date(article.publishedAt).toLocaleDateString()}
-        </span>
-        
-          href={article.url}
-          target="_blank"
-          rel="noreferrer"
-          style={styles.link}
+        {article.description && (
+          <p style={styles.desc}>{article.description}</p>
+        )}
+
+        <div style={styles.footer}>
+          <span style={styles.date}>
+            📅 {new Date(article.publishedAt).toLocaleDateString()}
+          </span>
+          
+            href={article.url}
+            target="_blank"
+            rel="noreferrer"
+            style={styles.link}
+        </div>
       </div>
     </div>
-  );
-}
+
+)}
 
 const styles = {
   card: {
-    background: '#111111',
-    border: '1px solid rgba(255,255,255,0.06)',
-    padding: '1.2rem',
+    background: '#ffffff',
+    border: '1px solid #f0f0f0',
+    borderRadius: '10px',
+    overflow: 'hidden',
     display: 'flex',
     flexDirection: 'column',
-    gap: '0.8rem',
-    transition: 'border-color 0.2s',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+    transition: 'transform 0.2s, box-shadow 0.2s',
+    cursor: 'pointer',
+  },
+  image: {
+    width: '100%',
+    height: '150px',
+    objectFit: 'cover',
+  },
+  body: {
+    padding: '1rem',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.6rem',
+    flex: 1,
   },
   header: {
     display: 'flex',
     alignItems: 'center',
-    gap: '0.8rem',
+    gap: '0.6rem',
   },
   index: {
     fontFamily: 'monospace',
-    fontSize: '0.65rem',
+    fontSize: '0.62rem',
     color: '#ff6d00',
+    fontWeight: '600',
   },
   source: {
-    fontFamily: 'monospace',
+    fontFamily: 'Inter, sans-serif',
     fontSize: '0.62rem',
-    color: '#555',
-    letterSpacing: '0.08em',
+    color: '#aaa',
     textTransform: 'uppercase',
-  },
-  image: {
-    width: '100%',
-    height: '160px',
-    objectFit: 'cover',
-    borderRadius: '2px',
+    letterSpacing: '0.06em',
   },
   title: {
-    fontFamily: 'monospace',
-    fontSize: '0.85rem',
-    color: '#e0e0e0',
+    fontFamily: 'Inter, sans-serif',
+    fontSize: '0.88rem',
+    fontWeight: '600',
+    color: '#e50d0d',
     lineHeight: 1.5,
   },
   desc: {
-    fontFamily: 'monospace',
-    fontSize: '0.72rem',
-    color: '#555',
+    fontFamily: 'Inter, sans-serif',
+    fontSize: '0.75rem',
+    color: '#888',
     lineHeight: 1.6,
   },
   footer: {
@@ -87,20 +101,20 @@ const styles = {
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 'auto',
-    paddingTop: '0.5rem',
-    borderTop: '1px solid rgba(255,255,255,0.04)',
+    paddingTop: '0.6rem',
+    borderTop: '1px solid #f5f5f5',
   },
   date: {
-    fontFamily: 'monospace',
-    fontSize: '0.62rem',
-    color: '#444',
+    fontFamily: 'Inter, sans-serif',
+    fontSize: '0.65rem',
+    color: '#bbb',
   },
   link: {
-    fontFamily: 'monospace',
-    fontSize: '0.68rem',
-    color: '#00e676',
+    fontFamily: 'Inter, sans-serif',
+    fontSize: '0.72rem',
+    color: '#00b450',
     textDecoration: 'none',
-    letterSpacing: '0.05em',
+    fontWeight: '600',
   },
 };
 

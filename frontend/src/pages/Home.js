@@ -70,7 +70,7 @@ function Home() {
       const data = await getWeather(city);
       setWeather(data);
     } catch (err) {
-      setError(`// error: City "${city}" not found. Check spelling.`);
+      setError(`City "${city}" not found. Check spelling.`);
       setWeather(null);
     } finally {
       setLoading(false);
@@ -85,10 +85,10 @@ function Home() {
         country: weather.sys.country,
         favourite: false,
       });
-      setSaveMsg(`// ${weather.name} saved successfully!`);
+      setSaveMsg(`✅ ${weather.name} saved successfully!`);
       loadCities();
     } catch (err) {
-      setSaveMsg(`// ${weather.name} is already saved.`);
+      setSaveMsg(`⚠️ ${weather.name} is already saved.`);
     }
   };
 
@@ -109,30 +109,30 @@ function Home() {
       <SearchBar onSearch={handleSearch} loading={loading} />
 
       {/* Error */}
-      {error && <p style={styles.error}>{error}</p>}
+      {error && <p style={styles.error}>⚠️ {error}</p>}
 
       <div style={styles.layout}>
 
-        {/* ── LEFT: Weather ── */}
+        {/* LEFT — Weather */}
         <div style={styles.left}>
-          <p style={styles.sectionLabel}>// weather.exe</p>
+          <p style={styles.sectionLabel}>🌤 Weather</p>
 
           {loading && <Loader />}
 
           {!loading && weather && (
-            <>
+            <div>
               <WeatherCard data={weather} />
               <button onClick={handleSaveCity} style={styles.saveBtn}>
                 ⭐ Save City
               </button>
               {saveMsg && <p style={styles.saveMsg}>{saveMsg}</p>}
-            </>
+            </div>
           )}
 
           {!loading && !weather && !error && (
             <div style={styles.empty}>
               <p style={styles.emptyText}>
-                &gt; Search a city to see weather data_
+                Search a city to see weather 🌍
               </p>
             </div>
           )}
@@ -141,7 +141,7 @@ function Home() {
           {cities.length > 0 && (
             <div style={styles.citiesBox}>
               <p style={styles.citiesLabel}>
-                // saved_cities [{cities.length}]
+                📌 Saved Cities ({cities.length})
               </p>
               {cities.map(city => (
                 <div key={city.id} style={styles.cityRow}>
@@ -149,17 +149,16 @@ function Home() {
                     style={styles.cityName}
                     onClick={() => handleSearch(city.name)}
                   >
-                    {city.favourite ? '⭐' : '○'} {city.name},{' '}
-                    {city.country}
+                    {city.favourite ? '⭐' : '○'} {city.name}, {city.country}
                   </span>
                   <div style={styles.cityActions}>
                     <button
                       style={styles.iconBtn}
                       onClick={() => handleFavourite(city.id)}
-                      title="Toggle Favourite"
+                      title="Favourite"
                     >★</button>
                     <button
-                      style={{ ...styles.iconBtn, color: '#ff5252' }}
+                      style={{ ...styles.iconBtn, color: '#e53935' }}
                       onClick={() => handleDelete(city.id)}
                       title="Delete"
                     >✕</button>
@@ -170,21 +169,18 @@ function Home() {
           )}
         </div>
 
-        {/* ── RIGHT: News ── */}
+        {/* RIGHT — News */}
         <div style={styles.right}>
 
-          {/* News Tabs */}
+          {/* Tabs */}
           <div style={styles.tabs}>
             <button
               style={activeTab === 'headlines'
                 ? { ...styles.tab, ...styles.tabActive }
                 : styles.tab}
-              onClick={() => {
-                setActiveTab('headlines');
-                loadHeadlines();
-              }}
+              onClick={() => { setActiveTab('headlines'); loadHeadlines(); }}
             >
-              Top Headlines
+              🗞 Top Headlines
             </button>
             <button
               style={activeTab === 'technology'
@@ -192,7 +188,7 @@ function Home() {
                 : styles.tab}
               onClick={() => loadTabNews('technology', 'technology')}
             >
-              Technology
+              💻 Technology
             </button>
             <button
               style={activeTab === 'sports'
@@ -200,7 +196,7 @@ function Home() {
                 : styles.tab}
               onClick={() => loadTabNews('sports', 'sports')}
             >
-              Sports
+              ⚽ Sports
             </button>
             <button
               style={activeTab === 'business'
@@ -208,7 +204,7 @@ function Home() {
                 : styles.tab}
               onClick={() => loadTabNews('business', 'business')}
             >
-              Business
+              💼 Business
             </button>
           </div>
 
@@ -217,7 +213,7 @@ function Home() {
           {!newsLoad && news.length === 0 && (
             <div style={styles.empty}>
               <p style={styles.emptyText}>
-                &gt; No news found. Check API key in api.js_
+                No news found. Check your GNews API key 🔑
               </p>
             </div>
           )}
@@ -239,137 +235,147 @@ function Home() {
 const styles = {
   page: {
     minHeight: '100vh',
-    background: '#0d0d0d',
+    background: '#f5f7f5',
   },
   layout: {
     display: 'grid',
     gridTemplateColumns: '340px 1fr',
-    gap: '1px',
-    background: 'rgba(0,230,118,0.08)',
     minHeight: 'calc(100vh - 120px)',
   },
   left: {
-    background: '#0d0d0d',
+    background: '#f9fbf9',
     padding: '2rem 1.5rem',
-    borderRight: '1px solid rgba(0,230,118,0.1)',
+    borderRight: '1px solid #e8f0e8',
   },
   right: {
-    background: '#0d0d0d',
+    background: '#f5f7f5',
     padding: '2rem',
   },
   sectionLabel: {
-    fontFamily: 'monospace',
-    fontSize: '0.65rem',
+    fontFamily: 'Inter, sans-serif',
+    fontSize: '0.75rem',
     color: '#ff6d00',
-    letterSpacing: '0.15em',
+    fontWeight: '700',
+    letterSpacing: '0.1em',
+    textTransform: 'uppercase',
     marginBottom: '1.2rem',
   },
   error: {
-    fontFamily: 'monospace',
-    fontSize: '0.78rem',
-    color: '#ff5252',
-    padding: '1rem 2rem',
-    background: 'rgba(255,82,82,0.05)',
-    borderLeft: '2px solid #ff5252',
+    fontFamily: 'Inter, sans-serif',
+    fontSize: '0.82rem',
+    color: '#e53935',
+    padding: '0.9rem 1.5rem',
+    background: '#fff5f5',
+    border: '1px solid #ffcdd2',
+    borderRadius: '8px',
     margin: '1rem 2rem',
   },
   empty: {
-    padding: '3rem 1rem',
-    border: '1px dashed rgba(0,230,118,0.1)',
+    padding: '2.5rem 1rem',
+    border: '2px dashed #e0ebe0',
+    borderRadius: '10px',
     textAlign: 'center',
+    background: '#fafcfa',
   },
   emptyText: {
-    fontFamily: 'monospace',
-    fontSize: '0.8rem',
-    color: '#333',
+    fontFamily: 'Inter, sans-serif',
+    fontSize: '0.85rem',
+    color: '#bbb',
   },
   saveBtn: {
     width: '100%',
     marginTop: '1rem',
-    padding: '0.7rem',
-    background: 'transparent',
-    border: '1px solid rgba(0,230,118,0.3)',
-    color: '#00e676',
-    fontFamily: 'monospace',
-    fontSize: '0.75rem',
+    padding: '0.75rem',
+    background: '#f0faf4',
+    border: '1.5px solid #c8ecd6',
+    borderRadius: '8px',
+    color: '#00b450',
+    fontFamily: 'Inter, sans-serif',
+    fontSize: '0.8rem',
+    fontWeight: '600',
     cursor: 'pointer',
-    letterSpacing: '0.1em',
   },
   saveMsg: {
-    fontFamily: 'monospace',
-    fontSize: '0.68rem',
-    color: '#00e676',
+    fontFamily: 'Inter, sans-serif',
+    fontSize: '0.72rem',
+    color: '#00b450',
     marginTop: '0.5rem',
-    padding: '0.4rem 0.6rem',
-    background: 'rgba(0,230,118,0.05)',
+    padding: '0.4rem 0.8rem',
+    background: '#f0faf4',
+    borderRadius: '6px',
   },
   citiesBox: {
     marginTop: '2rem',
-    borderTop: '1px solid rgba(255,255,255,0.05)',
+    borderTop: '1px solid #eef2ee',
     paddingTop: '1.2rem',
   },
   citiesLabel: {
-    fontFamily: 'monospace',
-    fontSize: '0.62rem',
+    fontFamily: 'Inter, sans-serif',
+    fontSize: '0.68rem',
     color: '#ff6d00',
-    letterSpacing: '0.1em',
+    fontWeight: '700',
+    letterSpacing: '0.08em',
+    textTransform: 'uppercase',
     marginBottom: '0.8rem',
   },
   cityRow: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '0.6rem 0.5rem',
-    borderBottom: '1px solid rgba(255,255,255,0.04)',
+    padding: '0.6rem 0.8rem',
+    borderRadius: '8px',
+    marginBottom: '0.3rem',
+    background: '#ffffff',
+    border: '1px solid #f0f0f0',
   },
   cityName: {
-    fontFamily: 'monospace',
-    fontSize: '0.75rem',
-    color: '#e0e0e0',
+    fontFamily: 'Inter, sans-serif',
+    fontSize: '0.8rem',
+    color: '#333',
     cursor: 'pointer',
+    fontWeight: '500',
   },
   cityActions: {
     display: 'flex',
-    gap: '0.4rem',
+    gap: '0.3rem',
   },
   iconBtn: {
     background: 'transparent',
     border: 'none',
     color: '#ff6d00',
     cursor: 'pointer',
-    fontSize: '0.85rem',
+    fontSize: '0.9rem',
     padding: '0.2rem 0.4rem',
+    borderRadius: '4px',
   },
   tabs: {
     display: 'flex',
-    gap: '0.3rem',
+    gap: '0.5rem',
     marginBottom: '1.5rem',
     flexWrap: 'wrap',
-    borderBottom: '1px solid rgba(255,255,255,0.05)',
-    paddingBottom: '0.8rem',
   },
   tab: {
-    fontFamily: 'monospace',
-    fontSize: '0.68rem',
-    letterSpacing: '0.08em',
-    padding: '0.4rem 1rem',
-    background: 'transparent',
-    color: '#555',
-    border: '1px solid rgba(255,255,255,0.07)',
+    fontFamily: 'Inter, sans-serif',
+    fontSize: '0.75rem',
+    fontWeight: '500',
+    padding: '0.5rem 1.1rem',
+    background: '#ffffff',
+    color: '#888',
+    border: '1.5px solid #e8e8e8',
+    borderRadius: '20px',
     cursor: 'pointer',
-    textTransform: 'uppercase',
     transition: 'all 0.2s',
   },
   tabActive: {
-    color: '#00e676',
-    borderColor: 'rgba(0,230,118,0.3)',
-    background: 'rgba(0,230,118,0.05)',
+    color: '#00b450',
+    borderColor: '#00b450',
+    background: '#f0faf4',
+    fontWeight: '600',
   },
   newsList: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-    gap: '1px',
-    background: 'rgba(255,255,255,0.04)',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(270px, 1fr))',
+    gap: '1rem',
   },
 };
 
